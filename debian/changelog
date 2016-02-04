@@ -1,0 +1,446 @@
+numactl (2.0.11-1ubuntu1) xenial; urgency=medium
+
+  * Merge with Debian unstable. Remaining changes:
+    - d/p/README: document dropped patches
+    - libnuma-dev should have the same restricted list of architectures
+      as the other binary packages. In particular, armhf will not build
+      since there is no support for the syscall __NR_migrate_pages.
+      Update debian/control for libnuma-dev with the restricted list of
+      architectures.
+  * Drop changes:
+    - stray .pc changes [previously undocumented delta]
+    - cherrypick add-check-for-return-value-of-node-to-cpus.patch from
+      upstream to fix warning when cpu_index > 79 (LP #1358835)
+    - d/p/from-git-6a7c2cf3-fix-uninitialised-mask.patch: Fix libnuma
+      SEGV due to uninitialised mask. (LP #1441388)
+    - d/p/libnuma-ppc64el-cpu-number-not-contiguous.patch - cherrypicked
+      upstream version. (LP #1358835/#1535494)
+  * Cherry-pick FTBFS fix from Debian #814952.
+
+ -- Nishanth Aravamudan <nish.aravamudan@canonical.com>  Thu, 04 Feb 2016 12:06:51 +0100
+
+numactl (2.0.11-1) unstable; urgency=medium
+
+  * Update to 2.0.11
+  * Update copyright to point to new github upstream
+
+ -- Ian Wienand <ianw@debian.org>  Sat, 12 Dec 2015 10:45:27 +1100
+
+numactl (2.0.10-1ubuntu7) xenial; urgency=medium
+
+  * Switch libnuma-ppc64el-cpu-number-not-contiguous.patch to the
+    cherrypicked upstream version. (LP: #1535494)
+
+ -- Serge Hallyn <serge.hallyn@ubuntu.com>  Mon, 18 Jan 2016 17:21:10 -0800
+
+numactl (2.0.10-1ubuntu6) wily; urgency=medium
+
+  * Well, duh. You can't patch debian/control after packaging and expect it
+    to have any impact So, just update debian/control for libnuma-dev with the
+    restricted list of architectures.
+
+ -- Tim Gardner <tim.gardner@canonical.com>  Wed, 02 Sep 2015 12:07:16 -0600
+
+numactl (2.0.10-1ubuntu5) wily; urgency=medium
+
+  * Fix FTBS. Delete debian/patches/series. Patch system uses
+    /usr/share/cdbs/1/rules/simple-patchsys.mk
+
+ -- Tim Gardner <tim.gardner@canonical.com>  Wed, 02 Sep 2015 11:08:52 -0600
+
+numactl (2.0.10-1ubuntu4) wily; urgency=medium
+
+  * libnuma-dev should have the same restricted list of architectures as the
+    other binary packages. In particular, armhf will not build since there is
+    no support for the syscall __NR_migrate_pages.
+    debian/patches/arch-restrict-libnumactl-dev.patch 
+
+ -- Tim Gardner <tim.gardner@canonical.com>  Wed, 02 Sep 2015 10:09:29 -0600
+
+numactl (2.0.10-1ubuntu3) wily; urgency=medium
+
+  * d/p/libnuma-ppc64el-cpu-number-not-contiguous - patch from Thierry FAUCK
+    (LP: #1358835)
+
+ -- Serge Hallyn <serge.hallyn@ubuntu.com>  Wed, 13 May 2015 11:22:35 -0500
+
+numactl (2.0.10-1ubuntu2) vivid; urgency=medium
+
+  * d/patches/from-git-6a7c2cf3-fix-uninitialised-mask.patch: Fix libnuma SEGV
+    due to uninitialised mask. (LP: #1441388)
+
+ -- Daniel J Blueman <daniel@numascale.com>  Wed, 08 Apr 2015 05:30:55 +0200
+
+numactl (2.0.10-1ubuntu1) vivid; urgency=medium
+
+  * cherrypick add-check-for-return-value-of-node-to-cpus.patch from
+    upstream to fix warning when cpu_index > 79 (LP: #1358835)
+
+ -- Serge Hallyn <serge.hallyn@ubuntu.com>  Tue, 24 Feb 2015 23:03:30 -0600
+
+numactl (2.0.10-1) unstable; urgency=medium
+
+  * Update to 2.0.10 final
+  * Upstream now uses autoconf/make; modify rules file
+    to use autotools cdbs class
+  * Update standards to 3.9.6 (no changes)
+  * Add hppa too (Closes: #764665)
+
+ -- Ian Wienand <ianw@debian.org>  Wed, 22 Oct 2014 21:45:46 +1100
+
+numactl (2.0.10~rc2-3) unstable; urgency=medium
+
+  * Turns out that kernel headers aren't generic enough to work anywhere.
+    Return arch to "i386 amd64 ia64 mips mipsel mipsn32 mipsn32el mips64
+    mips64el powerpc powerpcspe x32 ppc64 ppc64el arm64 sparc"
+    (Closes: #762449)
+
+ -- Ian Wienand <ianw@debian.org>  Sat, 27 Sep 2014 13:53:11 +1000
+
+numactl (2.0.10~rc2-2) unstable; urgency=medium
+
+  * Change architecture to "any".  There is no reason this can't build
+    everywhere.  (Closes: #739725)
+
+ -- Ian Wienand <ianw@debian.org>  Mon, 22 Sep 2014 09:21:33 +1000
+
+numactl (2.0.10~rc2-1) unstable; urgency=medium
+
+  * Upgrade to 2.0.10-rc2
+  * Remove 001_no_numa.patch; fixed upstream
+
+ -- Ian Wienand <ianw@debian.org>  Tue, 09 Sep 2014 21:33:32 +1000
+
+numactl (2.0.9-1) unstable; urgency=low
+
+  * Upgrade to 2.0.9
+  * Upgrade standards to 3.9.5 (no change)
+  * Add 001_no_numa.patch to avoid crash when no NUMA present (Closes:
+    #712692)
+
+ -- Ian Wienand <ianw@debian.org>  Sat, 21 Jun 2014 12:34:13 +1000
+
+numactl (2.0.9~rc5-1) unstable; urgency=low
+
+  * Upgrade to 2.0.9~rc5
+  * Include multi-arch patch, thanks Eleanor Chen <chenyueg@gmail.com>!
+    (Closes: #719953)
+  * Various updates to multi-arch to make it compliant
+  * Remove debian/*.dirs as upstream makes directories
+  * Update to compat 9 so dh_strip generates debug pkg with build-id
+
+ -- Ian Wienand <ianw@debian.org>  Thu, 19 Sep 2013 13:45:43 +1000
+
+numactl (2.0.8-3) unstable; urgency=low
+
+  * Add x32 & ppc64 to supported arch list (Closes: #714001)
+
+ -- Ian Wienand <ianw@debian.org>  Wed, 26 Jun 2013 19:38:58 +1000
+
+numactl (2.0.8-2) unstable; urgency=low
+
+  * Add powerpcspe to support arch list (Closes: #711883)
+  * Update standards version to 3.9.4 (no changes)
+
+ -- Ian Wienand <ianw@debian.org>  Tue, 11 Jun 2013 20:54:58 +1000
+
+numactl (2.0.8-1) unstable; urgency=low
+
+  * New upstream
+
+ -- Ian Wienand <ianw@debian.org>  Thu, 15 Nov 2012 12:20:29 -0800
+
+numactl (2.0.8~rc4-1) unstable; urgency=low
+
+  * New upstream
+
+ -- Ian Wienand <ianw@debian.org>  Sun, 01 Jul 2012 00:11:37 -0700
+
+numactl (2.0.8~rc3-1) unstable; urgency=low
+
+  * New upstream
+
+ -- Ian Wienand <ianw@debian.org>  Fri, 03 Feb 2012 09:50:36 -0800
+
+numactl (2.0.8~rc2-1) unstable; urgency=low
+
+  * New upstream (Closes: #548030)
+  * Update standards to 3.9.2
+  * No patches so remove from rules
+
+ -- Ian Wienand <ianw@debian.org>  Thu, 15 Sep 2011 20:56:50 -0700
+
+numactl (2.0.5-1) unstable; urgency=low
+
+  * New upstream
+  * Update standards to 3.9.1
+  * Update debhelper compat to 7
+  * Remove libnuma1.shlibs; should be covered by -V to
+    dh_makeshlibs (Closes: #570201)
+
+ -- Ian Wienand <ianw@debian.org>  Wed, 11 Aug 2010 22:32:39 -0700
+
+numactl (2.0.4~rc2-1) unstable; urgency=low
+
+  * New upstream
+  * Update standards version, no changes
+  * Make dev & dbg packages depend on the exact binary version (Closes:
+    #570201)
+
+ -- Ian Wienand <ianw@debian.org>  Thu, 11 Feb 2010 15:20:37 -0800
+
+numactl (2.0.3-1) unstable; urgency=low
+
+  * New upstream
+  * Upstream URL in copyright is fixed (Closes: #499425)
+
+ -- Ian Wienand <ianw@debian.org>  Fri, 19 Jun 2009 11:18:56 -0700
+
+numactl (2.0.3~rc3-1) unstable; urgency=low
+
+  * New upstream (Closes: #525014)
+  * Move libnuma-dbg to debug section
+  * Add ${misc:Depends} deps to packages
+  * Update to standards version to 3.8.1
+
+ -- Ian Wienand <ianw@debian.org>  Thu, 30 Apr 2009 08:04:32 -0700
+
+numactl (2.0.3~rc2-1) unstable; urgency=low
+
+  * New upstream
+
+ -- Ian Wienand <ianw@debian.org>  Tue, 21 Apr 2009 07:32:53 -0700
+
+numactl (2.0.3~rc1-2) unstable; urgency=low
+
+  * While I'm at it, fix up the upstream location in copyright file
+    (Closes: #499425)
+
+ -- Ian Wienand <ianw@debian.org>  Wed, 24 Dec 2008 10:21:22 -0800
+
+numactl (2.0.3~rc1-1) unstable; urgency=low
+
+  * New upstream
+
+ -- Ian Wienand <ianw@debian.org>  Wed, 24 Dec 2008 09:03:30 -0800
+
+numactl (2.0.2+release-1) unstable; urgency=low
+
+  * New upstream, 2.0.2
+  * Accidentally used -rcN for the versions below, when I shouldn't have
+    put the hyphen in there.  Hence the funny Debian revision - will be
+    sure to avoid when upstream moves to 2.0.3...
+
+ -- Ian Wienand <ianw@debian.org>  Wed, 13 Aug 2008 22:08:19 -0700
+
+numactl (2.0.2-rc2) unstable; urgency=low
+
+  * New upstream (Closes: #487954)
+
+ -- Ian Wienand <ianw@debian.org>  Sun, 13 Jul 2008 16:27:55 -0700
+
+numactl (2.0.2-rc1) unstable; urgency=low
+
+  * New upstream
+  * Add versioned depends for numactl on >= 2.0.1 due to API changes
+
+ -- Ian Wienand <ianw@debian.org>  Sat, 28 Jun 2008 15:43:21 -0700
+
+numactl (2.0.1+20080610-1) unstable; urgency=low
+
+  * New upstream (no upstrem version number change, stamped with date)
+  * All patches now accepted upstream
+  * Closes: #485398 -- fixed upstream; thanks for reporting Daniel
+
+ -- Ian Wienand <ianw@debian.org>  Mon, 09 Jun 2008 22:51:15 -0700
+
+numactl (2.0.1-1) unstable; urgency=low
+
+  * New upstream
+  * patches/static-lib.patch: update
+  * debian/watch: update to new SGI location
+
+ -- Ian Wienand <ianw@debian.org>  Sat, 07 Jun 2008 14:18:22 -0700
+
+numactl (1.0.2-1) unstable; urgency=low
+
+  * New upstream
+  * Closes: #442690 -- Add to rules a hack to remove libnuma.a after
+    unpatching
+  * Update README.debian
+
+ -- Ian Wienand <ianw@debian.org>  Wed, 03 Oct 2007 21:49:27 +1000
+
+numactl (1.0.1-1) unstable; urgency=low
+
+  * New upstream
+  * Remove patches/powerpc.patch: fixed upstream
+
+ -- Ian Wienand <ianw@debian.org>  Tue, 21 Aug 2007 15:08:14 +1000
+
+numactl (0.9.11-4) unstable; urgency=low
+
+  * Closes: #423771 -- drop hppa and s390 due to no kernel support, add
+    mipsel, thanks Steve Langasek
+  * Closes: #423182 -- Install static library; add
+    patches/static-lib.patch, update libnuma-dev.install.  Thanks Samuel
+    Thibault
+
+ -- Ian Wienand <ianw@debian.org>  Tue, 15 May 2007 21:57:55 +1000
+
+numactl (0.9.11-3) unstable; urgency=low
+
+  * Closes: #419054 -- add migratepages app/man [Anton Blanchard]
+
+ -- Ian Wienand <ianw@debian.org>  Mon, 16 Apr 2007 15:06:29 +1000
+
+numactl (0.9.11-2) unstable; urgency=low
+
+  * add powerpc.patch; fix FTBFS due to typo on PowerPC
+
+ -- Ian Wienand <ianw@debian.org>  Fri,  3 Nov 2006 10:31:24 +1100
+
+numactl (0.9.11-1) unstable; urgency=medium
+
+  * New upstream
+  * remove previous patch; now in upstream
+
+ -- Ian Wienand <ianw@debian.org>  Thu,  2 Nov 2006 09:56:10 +1100
+
+numactl (0.9.10-2) unstable; urgency=low
+
+  * add patches/powerpc.patch with migrate_pages syscall.  I am told this
+    will be the right number now (see:
+    http://lists.debian.org/debian-powerpc/2006/10/msg00329.html)
+
+ -- Ian Wienand <ianw@debian.org>  Mon, 30 Oct 2006 17:04:58 +1100
+
+numactl (0.9.10-1) unstable; urgency=low
+
+  * New upstream
+  * Closes: #392316 -- restrict build architectures to i386 amd64 ia64
+    s390 mips hppa, as these are the architectures that have all the NUMA
+    syscalls wired-up in the current kernel (2.6.18).  Note PowerPC is
+    special cased in the code but not enabled -- this is because the
+    syscall numbers bewteen libnuma and the kernel don't match up.
+
+ -- Ian Wienand <ianw@debian.org>  Mon, 16 Oct 2006 10:09:37 +1000
+
+numactl (0.9.9-2) unstable; urgency=low
+
+  * Closes: #381318 -- add patch to make sure maths lib included
+
+ -- Ian Wienand <ianw@debian.org>  Fri,  4 Aug 2006 10:34:54 +1000
+
+numactl (0.9.9-1) unstable; urgency=low
+
+  * New upstream
+  * Change maintiner email to ianw@debian.org
+
+ -- Ian Wienand <ianw@debian.org>  Mon, 10 Jul 2006 12:28:52 +1000
+
+numactl (0.9.8-1) unstable; urgency=low
+
+  * New upstream
+  * Closes: #363450 -- add patch for HPPA support
+  * Closes: #372132 -- get_mempolicy man page not around any more
+
+ -- Ian Wienand <ianw@gelato.unsw.edu.au>  Tue, 25 Apr 2006 15:21:51 -0700
+
+numactl (0.9.7-1) unstable; urgency=low
+
+  * New upstream
+  * remove mkdir patch
+  * Closes: #357468 -- add patch for MIPS support
+
+ -- Ian Wienand <ianw@gelato.unsw.edu.au>  Fri, 31 Mar 2006 08:34:33 +1100
+
+numactl (0.9.6-1) unstable; urgency=low
+
+  * New upstream
+  * syscall manpages removed; in man-pages >= 2.27
+  * add -dbg package
+
+ -- Ian Wienand <ianw@gelato.unsw.edu.au>  Wed, 29 Mar 2006 22:12:42 +1100
+
+numactl (0.9.3-2) unstable; urgency=low
+
+  * Add libdir target in rules to override upstream biarch detection
+
+ -- Ian Wienand <ianw@gelato.unsw.edu.au>  Mon, 20 Feb 2006 10:47:02 +1100
+
+numactl (0.9.3-1) unstable; urgency=low
+
+  * New upstream
+  * Remove __thread detection patch (fixed upstream)
+
+ -- Ian Wienand <ianw@gelato.unsw.edu.au>  Mon, 13 Feb 2006 21:26:09 +1100
+
+numactl (0.9.2-1) unstable; urgency=low
+
+  * New upstream
+  * Closes: #350596 -- check for __thread support
+  * Upstream handles /lib64 better; remove patch we had to deal with that.
+  * Add a patch to work around a problem with __thread detection
+
+ -- Ian Wienand <ianw@gelato.unsw.edu.au>  Mon, 13 Feb 2006 11:38:46 +1100
+
+numactl (0.9-1) unstable; urgency=low
+
+  * New upstream
+  * Most patches accepted into upstream; see upstream changelog or
+    debian/patches/README in source package for history
+
+ -- Ian Wienand <ianw@gelato.unsw.edu.au>  Wed,  4 Jan 2006 10:25:27 +1100
+
+numactl (0.8-1) unstable; urgency=low
+
+  * New upstream
+  * don't install numamon
+
+ -- Ian Wienand <ianw@gelato.unsw.edu.au>  Mon, 19 Dec 2005 21:06:46 +1100
+
+numactl (0.7pre2-6) unstable; urgency=low
+
+  * Closes: #329755 -- add expansion of NUMA acronym in control
+  * Closes: #343490 -- add patch to assume only one node for SMP 
+    (patch from Samuel Thibault <samuel.thibault@ens-lyon.org>)
+
+ -- Ian Wienand <ianw@gelato.unsw.edu.au>  Fri, 16 Dec 2005 10:02:58 +1100
+
+numactl (0.7pre2-5) unstable; urgency=low
+
+  * patches/man-section.diff : fix up man sections to stop lintian
+  * move .so out of non-dev package
+  * don't autogenerate control file; done by external scripts now
+  
+ -- Ian Wienand <ianw@gelato.unsw.edu.au>  Fri, 25 Nov 2005 17:04:25 +1100
+
+numactl (0.7pre2-4) unstable; urgency=medium
+
+  * update build infrastructre; more patches less modifying upstream
+  * Closes: #338358 -- fix typo to put includes in right directory 
+
+ -- Ian Wienand <ianw@gelato.unsw.edu.au>  Thu, 10 Nov 2005 10:14:45 +1100
+
+numactl (0.7pre2-3) unstable; urgency=low
+
+  * upload into unstable
+  * update standards version
+  * workaround for bug#323285 to fix FTBS (see TODO)
+
+ -- Al Stone <ahs3@debian.org>  Sat, 10 Sep 2005 15:52:02 -0600
+
+numactl (0.7pre2-2) experimental; urgency=low
+
+  * add patches/cpubind.diff to fix up --cpubind argument
+  * let cdbs handle build deps
+
+ -- Ian Wienand <ianw@gelato.unsw.edu.au>  Wed, 10 Aug 2005 18:58:03 +0000
+
+numactl (0.7pre2-1) experimental; urgency=low
+
+  * Initial release.
+  * Closes: bug#283443 -- ITP libnuma
+
+ -- Ian Wienand <ianw@gelato.unsw.edu.au>  Wed, 15 Dec 2004 15:44:20 +1100
